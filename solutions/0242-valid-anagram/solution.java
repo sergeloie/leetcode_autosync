@@ -8,16 +8,19 @@ class Solution {
             return false;
         }
 
-        Map<Character, Integer> sMap = new HashMap<>();
-        Map<Character, Integer> tMap = new HashMap<>();
+        Map<Character, Integer> map = new HashMap<>();
         for (int i = 0; i < s.length(); i++) {
             char si = s.charAt(i);
             char ti = t.charAt(i);
-            sMap.computeIfPresent(si, (key, value) -> value + 1);
-            tMap.computeIfPresent(ti, (key, value) -> value + 1);
-            sMap.putIfAbsent(si, 1);
-            tMap.putIfAbsent(ti, 1);
+            map.compute(si, (key, value) -> value == null ? 1 : value + 1);
+            map.compute(ti, (key, value) -> value == null ? -1 : value - 1);
+
         }
-        return sMap.equals(tMap);
+        for (Map.Entry<Character, Integer> entry : map.entrySet()) {
+            if (entry.getValue() != 0) {
+                return false;
+            }
+        }
+        return true;
     }
 }
