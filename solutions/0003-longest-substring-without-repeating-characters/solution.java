@@ -1,30 +1,27 @@
 public class Solution {
     public int lengthOfLongestSubstring(String s) {
-        LinkedHashSet linkedHashSet = new LinkedHashSet<>();
-        int maxLength = 0;
-
-        for (int i = 0; i < s.length(); i++) {
-            Character current = s.charAt(i);
-            if (linkedHashSet.contains(current)) {
-                truncateLHS(linkedHashSet, current);
-
-            }
-            linkedHashSet.add(current);
-            maxLength = Math.max(maxLength, linkedHashSet.size());
+        if (s.isEmpty()) {
+            return 0;
         }
-        return maxLength;
-    }
+        Set<Character> set = new HashSet<>();
+        int leftIndex = 0;
+        int rightIndex = 1;
+        int lastIndex = s.length() - 1;
+        int maxSize = 1;
+        set.add(s.charAt(0));
 
-    public void truncateLHS(LinkedHashSet<Character> set, Character character) {
-        Iterator<Character> iterator = set.iterator();
-        while (iterator.hasNext()) {
-            Character current = iterator.next();
-            if (current.equals(character)) {
-                iterator.remove();
-                break;
-            } else {
-                iterator.remove();
+        while (rightIndex <= lastIndex) {
+            char current = s.charAt(rightIndex);
+            if (set.contains(current)) {
+                do {
+                    set.remove(s.charAt(leftIndex));
+//                    leftIndex++;
+                } while (s.charAt(leftIndex++) != current);
             }
+            set.add(current);
+            rightIndex++;
+            maxSize = Math.max(maxSize, set.size());
         }
+        return maxSize;
     }
 }
