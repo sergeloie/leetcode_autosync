@@ -6,14 +6,11 @@ class Solution {
 
         List<Integer> starts = new ArrayList<>();
         List<Integer> finishes = new ArrayList<>();
-        for (int i = 0; i < firstList.length; i++) {
-            starts.add(firstList[i][0]);
-            finishes.add(firstList[i][1]);
-        }
-        for (int j = 0; j < secondList.length; j++) {
-            starts.add(secondList[j][0]);
-            finishes.add(secondList[j][1]);
-        }
+        Stream.concat(Arrays.stream(firstList), Arrays.stream(secondList))
+                .forEach(x -> {
+                    starts.add(x[0]);
+                    finishes.add(x[1]);
+                });
         starts.sort(Comparator.naturalOrder());
         finishes.sort(Comparator.naturalOrder());
 
