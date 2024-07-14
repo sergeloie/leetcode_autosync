@@ -1,26 +1,16 @@
-import java.util.HashMap;
-import java.util.Map;
-
 class Solution {
     public boolean isAnagram(String s, String t) {
+        int[] sArr = strToArr(s);
+        int[] tArr = strToArr(t);
+        return Arrays.equals(sArr, tArr);
+    }
 
-        if (s.length() != t.length()) {
-            return false;
+    public int[] strToArr(String str) {
+        int[] arr = new int[26];
+        for (int i = 0; i < str.length(); i++) {
+            int index = str.charAt(i) - 'a';
+            arr[index] = arr[index] + 1;
         }
-
-        Map<Character, Integer> map = new HashMap<>();
-        for (int i = 0; i < s.length(); i++) {
-            char si = s.charAt(i);
-            char ti = t.charAt(i);
-            map.compute(si, (key, value) -> value == null ? 1 : value + 1);
-            map.compute(ti, (key, value) -> value == null ? -1 : value - 1);
-
-        }
-        for (Map.Entry<Character, Integer> entry : map.entrySet()) {
-            if (entry.getValue() != 0) {
-                return false;
-            }
-        }
-        return true;
+        return arr;
     }
 }
