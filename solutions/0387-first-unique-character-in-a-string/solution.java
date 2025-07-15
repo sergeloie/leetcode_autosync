@@ -1,12 +1,16 @@
 class Solution {
     public int firstUniqChar(String s) {
-        String[] strArr = s.split("");
-        Map<String, Integer> map = new HashMap<>();
-        for (int i = 0; i < strArr.length; i++) {
+        Map<Character, Integer> map = new LinkedHashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            Character ch = s.charAt(i);
             int finalI = i;
-            map.compute(strArr[i], (k, v) -> v == null ? finalI : Integer.MAX_VALUE);
+            map.compute(ch, (key, value) -> value == null ? finalI : -1);
         }
-        int result =  map.values().stream().min(Integer::compareTo).get();
-        return result == Integer.MAX_VALUE ? -1 : result;
+        for (Integer value : map.values()) {
+            if (value != -1) {
+                return value;
+            }
+        }
+        return -1;
     }
 }
